@@ -33,9 +33,11 @@ def process_data(input_path: str, sep: str = ',', test_size=0.2):
     df.drop(columns=['time'], inplace=True)
 
     unique_users = df['user'].unique()
+    print(f'[INFO] Number of unique users: {len(unique_users)}')
     user_to_idx = dict(zip(unique_users, np.arange(unique_users.shape[0])))
 
     unique_items = df['item'].unique()
+    print(f'[INFO] Number of unique items: {len(unique_items)}')
     item_to_idx = dict(zip(unique_items, np.arange(unique_items.shape[0])))
 
     df['user'] = df['user'].map(user_to_idx)
@@ -96,5 +98,7 @@ if __name__ == '__main__':
         pickle.dump(test_ratings, file)
 
     print(f'[INFO] Number of ratings in train set: {len(train_ratings)}',
-          f'[INFO] Sparcity of train set: {(len(train_ratings) / len(user_to_idx) / len(item_to_idx) * 100):.3f} %',
+          f'[INFO] Number of users in train set: {len(user_to_items)}',
+          f'[INFO] Number of items in train set: {len(item_to_users)}',
+          f'[INFO] Sparcity of train set: {(len(train_ratings) / len(user_to_items) / len(item_to_users) * 100):.3f} %',
           sep='\n')
