@@ -12,11 +12,16 @@ class UserBased:
         self.max_value = max_value
 
         self.neighbors_weights = np.empty((M,), dtype=list)
-        self.user_means = np.empty((M,), dtype=np.float32)
         self.user_deviations = np.empty((M,), dtype=dict)
 
     def fit(self, train_ratings, user_to_items):
         """Fit user-base collaborative filtering model"""
+        # set user_mean with default value of global mean
+        self.user_means = np.full(
+            (self.M,),
+            fill_value=sum(train_ratings.values()) / len(train_ratings.values())
+        )
+
         neighbours_correlation = np.empty((self.M,))
         for i in range(self.M):
 
